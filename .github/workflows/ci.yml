@@ -12,7 +12,7 @@ env:
 jobs:
   fmt:
     name: rustfmt
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, ci-heavy]
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -22,7 +22,7 @@ jobs:
 
   clippy:
     name: clippy
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, ci-heavy]
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -33,7 +33,7 @@ jobs:
 
   test:
     name: test (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ fromJSON('{"ubuntu-latest":["self-hosted","Linux","X64","ci-heavy"],"macos-latest":["self-hosted","macOS"]}')[matrix.os] }}
     strategy:
       fail-fast: false
       matrix:
@@ -60,7 +60,7 @@ jobs:
 
   shellcheck:
     name: shellcheck
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, ci-heavy]
     steps:
       - uses: actions/checkout@v4
       - uses: ludeeus/action-shellcheck@master
